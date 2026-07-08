@@ -1,0 +1,12 @@
+{
+  "name": "desktop-app-cleaner-boost-panel",
+  "version": "0.1.0",
+  "private": true,
+  "main": "main.js",
+  "scripts": {
+    "start": "electron ."
+  },
+  "devDependencies": {
+    "electron": "^31.7.7"
+  }
+}
