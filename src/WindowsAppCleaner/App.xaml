@@ -1,0 +1,13 @@
+<Application x:Class="WindowsAppCleaner.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Application.Resources>
+        <ResourceDictionary>
+            <SolidColorBrush x:Key="AccentBrush" Color="#0D9488" />
+            <SolidColorBrush x:Key="AccentDarkBrush" Color="#08756E" />
+            <SolidColorBrush x:Key="WarmBrush" Color="#EE8500" />
+            <SolidColorBrush x:Key="TextBrush" Color="#20252B" />
+            <SolidColorBrush x:Key="MutedBrush" Color="#69717B" />
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

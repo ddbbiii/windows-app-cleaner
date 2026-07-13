@@ -7,6 +7,13 @@ config.json
 electron/node_modules/
 electron/.npm/
 
+**/bin/
+**/obj/
+.vs/
+artifacts/
+TestResults/
+.codex-memory/
+
 *.log
 *.tmp
 

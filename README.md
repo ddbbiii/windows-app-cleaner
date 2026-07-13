@@ -1,30 +1,45 @@
-# Windows 桌面应用清理器
+# Windows 应用清理器
 
-一个基于 `Python 3.11` 的 Windows 本地小工具。它常驻系统托盘，按下你自定义的全局快捷键后，会只对当前桌面上的应用窗口发送正常关闭请求，不会强制结束进程。
+面向 Windows 10/11 的原生桌面应用清理工具。它提供常驻悬浮球、前台与通知区域应用识别、白名单和两阶段安全清理。
 
-## 功能
+## 主要功能
 
-- 托盘菜单：`立即清理`、`打开设置`、`刷新当前应用列表`、`开关开机启动`、`退出`
-- 全局快捷键：首次启动自行配置，例如 `F4`、`Ctrl+Alt+K`
-- 小火箭浮窗：桌面上常驻一个小火箭按钮，点击展开后可清理前台或后台应用
-- 白名单：支持从当前运行的桌面应用里多选加入白名单，也支持在白名单面板里多选移出
-- 手动关闭：支持从当前桌面应用列表中多选后直接正常关闭
-- 清理范围：支持前台和后台应用；前台指任务栏上能显示的应用窗口，后台指 Windows 右下角通知区域/托盘里的应用
-- 清理策略：只处理有主窗口的桌面应用，不碰普通后台进程，不调用强杀
-- 开机启动：通过当前用户启动目录里的启动项脚本实现
+- 原生 `C# / .NET 10 / WPF` 单进程架构
+- 启动默认收起，点击悬浮球展开，面板失焦自动关闭
+- 多显示器 Per-Monitor DPI V2 拖动与边界修正
+- 全屏应用或游戏运行时自动隐藏悬浮球
+- 前台定义为任务栏应用，后台定义为 Windows 通知区域中可确认身份的应用
+- 双状态应用显示为相邻的前台行和后台行
+- 单项清理、批量清理前台、批量退出后台应用
+- 先发送 `WM_CLOSE`，两秒后对残留应用汇总询问是否强制结束
+- 强退前复核 PID、启动时间和 exe 路径，保护 Explorer、系统 Shell 和本工具
+- 全局快捷键、系统托盘、开机启动和进程名白名单
 
-## 运行
+## 开发运行
 
 ```powershell
-cd E:\program\1project\forCodex\english\codex-notes\tech-learning\windows-app-cleaner
-python .\main.py
+dotnet run --project .\src\WindowsAppCleaner\WindowsAppCleaner.csproj -c Debug
 ```
 
-首次启动如果还没有配置快捷键，会自动弹出设置窗口。保存后工具会隐藏到托盘。
+运行测试：
 
-## 配置文件
+```powershell
+dotnet test .\WindowsAppCleaner.slnx -c Release
+```
 
-项目根目录下会生成 `config.json`，字段如下：
+生成自包含 x64 版本：
+
+```powershell
+dotnet publish .\src\WindowsAppCleaner\WindowsAppCleaner.csproj `
+  -c Release -r win-x64 --self-contained true `
+  -p:PublishTrimmed=false -o .\artifacts\publish
+```
+
+## 配置
+
+安装版配置位于 `%LocalAppData%\WindowsAppCleaner\config.json`。便携版目录中存在 `portable.flag` 时，配置保存在程序目录。
+
+保留兼容字段：
 
 - `hotkey`
 - `allowlist_process_names`
@@ -32,15 +47,31 @@ python .\main.py
 - `minimize_to_tray_on_launch`
 - `cleanup_mode`
 
-`hotkey` 的值是一个对象，包含：
+新增字段：
 
-- `display`
-- `modifiers`
-- `vk`
+- `schema_version`
+- `floating_position`
+- `hide_in_fullscreen`
 
-## 已知限制
+首次启动会导入旧版项目目录中的 `config.json`，并将旧启动 VBS 迁移为当前用户的注册表启动项。
 
-- v1 只发送正常关闭请求，应用如果弹出“是否保存”之类确认框，需要你自己确认。
-- 白名单按进程名匹配，不区分同名不同路径。
-- 某些管理员权限运行的应用，普通权限下可能无法关闭。
-- Windows 11 托盘应用识别会优先读取系统通知区域配置，并只处理能找到安全窗口句柄的运行中应用。
+## 清理语义
+
+- 清理前台：关闭目标任务栏窗口。窗口消失后，即使应用退到托盘也视为成功。
+- 清理后台：退出拥有通知区域图标的整个应用，因此会同时关闭该应用的前台窗口。
+- 强制结束：只在正常关闭未完成且用户确认后执行。
+- `explorer.exe` 只允许关闭具体文件窗口，永不强退整个 Shell。
+
+## 发布
+
+推送 `v*` 标签后，GitHub Actions 会运行测试并生成：
+
+- 自包含便携 ZIP
+- Inno Setup 用户级安装包
+- SHA256 校验文件
+
+当前发布物未签名，Windows SmartScreen 可能显示提示。
+
+## 已知边界
+
+Windows 没有公开、稳定的 API 可以完整枚举其他应用的通知区域图标。当前实现只把 `NotifyIconSettings` 中已显示、并且能与正在运行 exe 精确匹配的条目归为后台；身份不确定的进程不会被清理。

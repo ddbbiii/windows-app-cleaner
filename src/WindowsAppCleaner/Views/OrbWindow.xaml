@@ -1,0 +1,57 @@
+<Window x:Class="WindowsAppCleaner.Views.OrbWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Windows 应用清理器悬浮球" Width="72" Height="72"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True"
+        Focusable="False" UseLayoutRounding="True"
+        PreviewMouseLeftButtonDown="OnMouseDown"
+        PreviewMouseMove="OnMouseMove"
+        PreviewMouseLeftButtonUp="OnMouseUp">
+    <Grid x:Name="OrbRoot" Margin="2" Cursor="Hand" RenderTransformOrigin="0.5,0.5">
+        <Grid.RenderTransform><ScaleTransform ScaleX="1" ScaleY="1" /></Grid.RenderTransform>
+        <Grid.Triggers>
+            <EventTrigger RoutedEvent="MouseEnter">
+                <BeginStoryboard><Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="OrbRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.055" Duration="0:0:0.14" />
+                    <DoubleAnimation Storyboard.TargetName="OrbRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.055" Duration="0:0:0.14" />
+                </Storyboard></BeginStoryboard>
+            </EventTrigger>
+            <EventTrigger RoutedEvent="MouseLeave">
+                <BeginStoryboard><Storyboard>
+                    <DoubleAnimation Storyboard.TargetName="OrbRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1" Duration="0:0:0.16" />
+                    <DoubleAnimation Storyboard.TargetName="OrbRoot" Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1" Duration="0:0:0.16" />
+                </Storyboard></BeginStoryboard>
+            </EventTrigger>
+        </Grid.Triggers>
+
+        <Ellipse Stroke="#A6FFFFFF" StrokeThickness="1.4">
+            <Ellipse.Fill>
+                <RadialGradientBrush Center="0.34,0.28" GradientOrigin="0.25,0.18" RadiusX="0.88" RadiusY="0.88">
+                    <GradientStop Color="#FF35C4B8" Offset="0" />
+                    <GradientStop Color="#FF0C9B91" Offset="0.55" />
+                    <GradientStop Color="#FF086E69" Offset="1" />
+                </RadialGradientBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse Margin="5" Stroke="#32FFFFFF" StrokeThickness="1" />
+
+        <Viewbox Width="39" Height="39" Margin="0,0,1,2">
+            <Canvas Width="48" Height="48" RenderTransformOrigin="0.5,0.5">
+                <Canvas.RenderTransform><RotateTransform Angle="-7" /></Canvas.RenderTransform>
+                <Path Fill="White" Data="M30,3 C38,5 44,11 45,19 C37,21 31,25 26,30 L17,39 L9,31 L18,22 C23,17 27,11 30,3 Z" />
+                <Path Fill="#D6FFF9" Data="M18,21 L7,20 L3,29 L14,31 Z M31,35 L33,46 L43,41 L40,30 Z" />
+                <Ellipse Canvas.Left="29" Canvas.Top="12" Width="8" Height="8" Fill="#087B73" />
+                <Ellipse Canvas.Left="31" Canvas.Top="13" Width="3" Height="3" Fill="#9DF2EA" />
+                <Path Fill="#FF9A24" Data="M16,37 L9,46 C8,48 11,50 13,48 L22,40 Z" />
+            </Canvas>
+        </Viewbox>
+
+        <Border HorizontalAlignment="Right" VerticalAlignment="Bottom"
+                MinWidth="20" Height="20" Padding="4,0" Margin="0,0,-1,-1"
+                Background="#FFFF8A18" BorderBrush="White" BorderThickness="1.5" CornerRadius="10">
+            <TextBlock x:Name="CountText" Text="0" Foreground="White" FontSize="10.5" FontWeight="Bold"
+                       HorizontalAlignment="Center" VerticalAlignment="Center" />
+        </Border>
+    </Grid>
+</Window>

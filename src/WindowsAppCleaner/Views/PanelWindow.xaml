@@ -1,0 +1,212 @@
+<Window x:Class="WindowsAppCleaner.Views.PanelWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="clr-namespace:WindowsAppCleaner.ViewModels"
+        xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+        Title="Windows 应用清理器 - 加速面板"
+        Width="376" Height="500" MaxHeight="528" MinHeight="350"
+        WindowStyle="None" AllowsTransparency="True" Background="Transparent"
+        ShowInTaskbar="False" ResizeMode="NoResize" Topmost="True" UseLayoutRounding="True">
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ui:ThemesDictionary Theme="Light" />
+                <ui:ControlsDictionary />
+            </ResourceDictionary.MergedDictionaries>
+            <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+
+            <Style x:Key="GhostIconButton" TargetType="Button">
+                <Setter Property="Width" Value="34" /><Setter Property="Height" Value="34" />
+                <Setter Property="BorderThickness" Value="0" /><Setter Property="Background" Value="Transparent" />
+                <Setter Property="Cursor" Value="Hand" /><Setter Property="Focusable" Value="False" />
+                <Setter Property="Template">
+                    <Setter.Value><ControlTemplate TargetType="Button">
+                        <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="11">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="#E9F1F5F4" /></Trigger>
+                            <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.65" /></Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
+
+            <Style x:Key="PrimaryAction" TargetType="Button">
+                <Setter Property="Height" Value="48" /><Setter Property="BorderThickness" Value="0" />
+                <Setter Property="Background" Value="#FF0A8F87" /><Setter Property="Foreground" Value="White" />
+                <Setter Property="Cursor" Value="Hand" />
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                    <Border x:Name="Surface" Background="{TemplateBinding Background}" CornerRadius="14">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="#FF087E77" /></Trigger>
+                        <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.78" /></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate></Setter.Value></Setter>
+            </Style>
+
+            <Style x:Key="SecondaryAction" TargetType="Button" BasedOn="{StaticResource PrimaryAction}">
+                <Setter Property="Background" Value="#FFFFF7EC" /><Setter Property="Foreground" Value="#FF2B3337" />
+                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="Button">
+                    <Border x:Name="Surface" Background="{TemplateBinding Background}" BorderBrush="#2DE47B12" BorderThickness="1" CornerRadius="14">
+                        <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Surface" Property="Background" Value="#FFFFEEDB" /></Trigger>
+                        <Trigger Property="IsPressed" Value="True"><Setter TargetName="Surface" Property="Opacity" Value="0.76" /></Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate></Setter.Value></Setter>
+            </Style>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Border x:Name="PanelSurface" Margin="3" CornerRadius="24" BorderBrush="#7FFFFFFF" BorderThickness="1"
+            RenderTransformOrigin="0.5,0.16">
+        <Border.RenderTransform>
+            <TransformGroup><ScaleTransform ScaleX="1" ScaleY="1" /><TranslateTransform Y="0" /></TransformGroup>
+        </Border.RenderTransform>
+        <Border.Background>
+            <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                <GradientStop Color="#FFFFFFFF" Offset="0" />
+                <GradientStop Color="#FFF7FCFB" Offset="0.62" />
+                <GradientStop Color="#FFF0F9F8" Offset="1" />
+            </LinearGradientBrush>
+        </Border.Background>
+
+        <Grid Margin="18,15,18,16">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="50" /><RowDefinition Height="34" /><RowDefinition Height="*" />
+                <RowDefinition Height="26" /><RowDefinition Height="48" />
+            </Grid.RowDefinitions>
+
+            <Grid Grid.Row="0">
+                <Grid.ColumnDefinitions><ColumnDefinition Width="Auto" /><ColumnDefinition /><ColumnDefinition Width="Auto" /></Grid.ColumnDefinitions>
+                <Border Width="38" Height="38" CornerRadius="13" VerticalAlignment="Top">
+                    <Border.Background><LinearGradientBrush StartPoint="0,0" EndPoint="1,1"><GradientStop Color="#FF20B3A8" /><GradientStop Color="#FF087C75" Offset="1" /></LinearGradientBrush></Border.Background>
+                    <Viewbox Width="24" Height="24">
+                        <Canvas Width="48" Height="48">
+                            <Path Fill="White" Data="M30,3 C38,5 44,11 45,19 C37,21 31,25 26,30 L17,39 L9,31 L18,22 C23,17 27,11 30,3 Z" />
+                            <Ellipse Canvas.Left="29" Canvas.Top="12" Width="8" Height="8" Fill="#087C75" />
+                            <Path Fill="#FF9A24" Data="M16,37 L9,46 C8,48 11,50 13,48 L22,40 Z" />
+                        </Canvas>
+                    </Viewbox>
+                </Border>
+                <StackPanel Grid.Column="1" Margin="11,-1,0,0">
+                    <TextBlock Text="一键加速" FontSize="19" FontWeight="SemiBold" Foreground="#FF1F292D" />
+                    <TextBlock Margin="0,1,0,0" Foreground="#FF7A858A" FontSize="11.5">
+                        <Run Text="可清理 " /><Run Text="{Binding CleanableCount, Mode=OneWay}" FontWeight="SemiBold" Foreground="#FF0A8F87" />
+                        <Run Text=" 个应用" />
+                    </TextBlock>
+                </StackPanel>
+                <Button Grid.Column="2" Style="{StaticResource GhostIconButton}" Click="OnSettings" ToolTip="打开设置" Margin="0,1,0,0">
+                    <Viewbox Width="18" Height="18"><Path Fill="#FF647176" Data="M12,2 L14.2,2.6 L15.4,4.7 L17.7,5.2 L18.4,7.4 L17,9.3 L17.7,11.5 L16,13.2 L13.7,13.1 L12.1,14.8 L10,14.1 L8,15 L6.3,13.4 L4,13.6 L3,11.5 L4.2,9.5 L3,7.5 L4.1,5.4 L6.4,5.1 L7.8,3.2 L10,3.8 Z M10.4,6.7 A3.2,3.2 0 1 0 10.4,13.1 A3.2,3.2 0 1 0 10.4,6.7" /></Viewbox>
+                </Button>
+            </Grid>
+
+            <Grid Grid.Row="1" Margin="2,0,2,4">
+                <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition /></Grid.ColumnDefinitions>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse Width="7" Height="7" Fill="#FF0A9A91" Margin="0,0,7,0" />
+                    <TextBlock Foreground="#FF677378" FontSize="12" VerticalAlignment="Center"><Run Text="前台 " /><Run Text="{Binding ForegroundCount, Mode=OneWay}" FontWeight="SemiBold" Foreground="#FF087C75" /></TextBlock>
+                </StackPanel>
+                <StackPanel Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <Ellipse Width="7" Height="7" Fill="#FFE47B12" Margin="0,0,7,0" />
+                    <TextBlock Foreground="#FF677378" FontSize="12" VerticalAlignment="Center"><Run Text="后台 " /><Run Text="{Binding BackgroundCount, Mode=OneWay}" FontWeight="SemiBold" Foreground="#FFD36B08" /></TextBlock>
+                </StackPanel>
+            </Grid>
+
+            <Border Grid.Row="2" CornerRadius="16" Background="#F9FFFFFF" BorderBrush="#130F2C30" BorderThickness="1" Padding="10,2,7,2">
+                <Grid>
+                    <ListBox ItemsSource="{Binding Rows, Mode=OneWay}" Background="Transparent" BorderThickness="0"
+                             ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <ListBox.ItemContainerStyle>
+                            <Style TargetType="ListBoxItem">
+                                <Setter Property="HorizontalContentAlignment" Value="Stretch" /><Setter Property="Focusable" Value="False" />
+                                <Setter Property="Template"><Setter.Value><ControlTemplate TargetType="ListBoxItem">
+                                    <Border x:Name="Hover" Background="Transparent" CornerRadius="11"><ContentPresenter /></Border>
+                                    <ControlTemplate.Triggers><Trigger Property="IsMouseOver" Value="True"><Setter TargetName="Hover" Property="Background" Value="#B8F0F7F6" /></Trigger></ControlTemplate.Triggers>
+                                </ControlTemplate></Setter.Value></Setter>
+                            </Style>
+                        </ListBox.ItemContainerStyle>
+                        <ListBox.ItemTemplate>
+                            <DataTemplate DataType="{x:Type vm:AppRowViewModel}">
+                                <Grid Height="52" ToolTip="{Binding Tooltip}" AutomationProperties.Name="{Binding Tooltip}">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="50" /><ColumnDefinition Width="*" /><ColumnDefinition Width="42" /><ColumnDefinition Width="42" />
+                                    </Grid.ColumnDefinitions>
+                                    <Border Grid.ColumnSpan="4" VerticalAlignment="Bottom" Height="1" Margin="2,0,3,0" Background="#0D15282B" />
+                                    <Border Width="36" Height="36" CornerRadius="11" Background="#E6FFFFFF" HorizontalAlignment="Left">
+                                        <Image Source="{Binding Icon}" Width="27" Height="27" Stretch="Uniform" />
+                                    </Border>
+                                    <Border Grid.Column="1" x:Name="ScopePill" Width="64" Height="26" HorizontalAlignment="Left" VerticalAlignment="Center" CornerRadius="13" Background="#150A9A91" UseLayoutRounding="True">
+                                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                            <Ellipse x:Name="ScopeDot" Width="6" Height="6" Fill="#FF0A9A91" Margin="0,0,6,0" VerticalAlignment="Center" />
+                                            <TextBlock x:Name="ScopeText" Text="{Binding ScopeLabel}" Foreground="#FF087C75" FontSize="12" FontWeight="SemiBold" VerticalAlignment="Center" TextAlignment="Center" />
+                                        </StackPanel>
+                                    </Border>
+                                    <Button Grid.Column="2" Style="{StaticResource GhostIconButton}" Tag="{Binding}" Click="OnCleanOne" ToolTip="立即清理">
+                                        <Viewbox Width="18" Height="18"><Path Fill="#FFE47B12" Data="M13.2,2.2 L4.8,13.4 L10.9,13.4 L9.7,21.8 L19.2,9.3 L12.9,9.3 Z" /></Viewbox>
+                                    </Button>
+                                    <Button Grid.Column="3" x:Name="PinButton" Style="{StaticResource GhostIconButton}" Tag="{Binding}" Click="OnToggleAllow" ToolTip="切换保留">
+                                        <Viewbox Width="18" Height="18"><Path x:Name="PinGlyph" Fill="#FF889398" Data="M15.8,3.4 L20.6,8.2 L18.1,10.7 L19.6,12.2 L18.1,13.7 L15,10.6 L10.4,15.2 L10.8,18.6 L9.4,20 L6.2,14.7 L0.9,11.5 L2.3,10.1 L5.7,10.5 L10.3,5.9 L7.2,2.8 L8.7,1.3 L10.2,2.8 L12.7,0.3 Z" /></Viewbox>
+                                    </Button>
+                                </Grid>
+                                <DataTemplate.Triggers>
+                                    <DataTrigger Binding="{Binding Scope}" Value="Background">
+                                        <Setter TargetName="ScopePill" Property="Background" Value="#18E47B12" />
+                                        <Setter TargetName="ScopeDot" Property="Fill" Value="#FFE47B12" />
+                                        <Setter TargetName="ScopeText" Property="Foreground" Value="#FFD36B08" />
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding IsAllowed}" Value="True">
+                                        <Setter TargetName="PinButton" Property="Background" Value="#FF0A8F87" />
+                                        <Setter TargetName="PinGlyph" Property="Fill" Value="White" />
+                                    </DataTrigger>
+                                </DataTemplate.Triggers>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                    <TextBlock Text="现在没有需要整理的应用" Foreground="#FF899398" FontSize="12.5" HorizontalAlignment="Center" VerticalAlignment="Center">
+                        <TextBlock.Style><Style TargetType="TextBlock"><Setter Property="Visibility" Value="Collapsed" />
+                            <Style.Triggers><DataTrigger Binding="{Binding Rows.Count}" Value="0"><Setter Property="Visibility" Value="Visible" /></DataTrigger></Style.Triggers>
+                        </Style></TextBlock.Style>
+                    </TextBlock>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="3" Margin="4,5,4,2">
+                <Ellipse Width="6" Height="6" Fill="#FF7FB4AF" HorizontalAlignment="Left" VerticalAlignment="Center" />
+                <TextBlock Text="{Binding StatusText, Mode=OneWay}" Margin="13,0,0,0" FontSize="11" Foreground="#FF7D898E" VerticalAlignment="Center" TextTrimming="CharacterEllipsis" />
+            </Grid>
+
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions><ColumnDefinition /><ColumnDefinition Width="9" /><ColumnDefinition /></Grid.ColumnDefinitions>
+                <Button Style="{StaticResource PrimaryAction}" Click="OnCleanForeground">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Width="18" Height="18" Margin="0,0,8,0">
+                            <Path Stroke="White" StrokeThickness="1.8" StrokeLineJoin="Round" Data="M2,3 L18,3 L18,17 L2,17 Z M2,7 L18,7 M7,7 L7,17" />
+                        </Viewbox>
+                        <TextBlock Text="清理前台" FontSize="15" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+                <Button Grid.Column="2" Style="{StaticResource SecondaryAction}" Click="OnCleanBackground">
+                    <StackPanel Orientation="Horizontal">
+                        <Viewbox Width="18" Height="18" Margin="0,0,8,0">
+                            <Path Stroke="#FFE47B12" StrokeThickness="1.8" StrokeLineJoin="Round" Data="M2,4 L18,4 L18,17 L2,17 Z M2,11 L6,11 L8,14 L12,14 L14,11 L18,11" />
+                        </Viewbox>
+                        <TextBlock Text="退出后台" FontSize="15" FontWeight="SemiBold" />
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <Border Grid.RowSpan="5" Background="#82FFFFFF" CornerRadius="22" Visibility="{Binding IsBusy, Converter={StaticResource BoolToVisibility}}">
+                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+                    <ProgressBar IsIndeterminate="True" Width="132" Height="3" />
+                    <TextBlock Text="正在整理应用…" Margin="0,10,0,0" Foreground="#FF647176" FontSize="12" />
+                </StackPanel>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
