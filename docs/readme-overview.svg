@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="480" viewBox="0 0 1200 480" role="img" aria-labelledby="title desc">
+  <title id="title">Windows 应用清理器的识别和关闭流程</title>
+  <desc id="desc">识别任务栏和通知区域应用，经过白名单和系统保护后先正常关闭，必要时再由用户确认强制结束。</desc>
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#f5fbfa"/><stop offset="1" stop-color="#e2f4f1"/></linearGradient><linearGradient id="core"><stop stop-color="#087d73"/><stop offset="1" stop-color="#11a092"/></linearGradient><filter id="s"><feDropShadow dy="10" stdDeviation="13" flood-color="#154d47" flood-opacity=".12"/></filter></defs>
+  <rect width="1200" height="480" rx="28" fill="url(#bg)"/>
+  <text x="60" y="72" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="34" font-weight="700" fill="#142e2b">一键整理桌面，但不把“清理”变成盲目杀进程</text>
+  <text x="60" y="108" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="17" fill="#607570">前台按任务栏识别，后台只认可靠映射的通知区域应用。</text>
+  <g filter="url(#s)"><rect x="58" y="166" width="250" height="216" rx="22" fill="#fff"/><rect x="369" y="145" width="278" height="258" rx="27" fill="url(#core)"/><rect x="708" y="166" width="206" height="216" rx="22" fill="#fff"/><rect x="975" y="166" width="166" height="216" rx="22" fill="#fff"/></g>
+  <g font-family="Segoe UI, Microsoft YaHei, sans-serif">
+    <text x="90" y="211" font-size="21" font-weight="700" fill="#17332f">应用清单</text><rect x="90" y="237" width="186" height="44" rx="12" fill="#e8f6f3"/><circle cx="111" cy="259" r="8" fill="#0d9587"/><text x="131" y="265" font-size="16" fill="#33554f">任务栏 → 前台</text><rect x="90" y="294" width="186" height="44" rx="12" fill="#fff1de"/><circle cx="111" cy="316" r="8" fill="#e47b00"/><text x="131" y="322" font-size="16" fill="#6b5439">通知区域 → 后台</text><text x="90" y="362" font-size="14" fill="#71837f">双状态应用相邻显示</text>
+    <circle cx="508" cy="199" r="32" fill="#ffffff22"/><path d="M495 202h26M508 189v26" stroke="white" stroke-width="4" stroke-linecap="round"/><text x="508" y="260" text-anchor="middle" font-size="23" font-weight="700" fill="white">保护与白名单</text><text x="508" y="298" text-anchor="middle" font-size="16" fill="#dbf5f0">系统 Shell · Explorer · 本工具</text><text x="508" y="329" text-anchor="middle" font-size="16" fill="#dbf5f0">身份不明应用不可清理</text><text x="508" y="360" text-anchor="middle" font-size="16" fill="#dbf5f0">同进程名白名单同步生效</text>
+    <text x="741" y="211" font-size="21" font-weight="700" fill="#17332f">正常关闭</text><text x="741" y="260" font-size="17" fill="#4d6660">发送 WM_CLOSE</text><text x="741" y="295" font-size="17" fill="#4d6660">等待 2 秒</text><text x="741" y="330" font-size="17" fill="#4d6660">保留保存确认框</text><text x="741" y="360" font-size="14" fill="#71837f">默认不强退</text>
+    <text x="1007" y="211" font-size="21" font-weight="700" fill="#17332f">残留</text><text x="1007" y="260" font-size="16" fill="#4d6660">汇总确认</text><text x="1007" y="294" font-size="16" fill="#4d6660">复核 PID</text><text x="1007" y="328" font-size="16" fill="#4d6660">启动时间</text><text x="1007" y="362" font-size="16" fill="#4d6660">exe 路径</text>
+  </g>
+  <path d="M321 274h30m-10-9 10 9-10 9M660 274h30m-10-9 10 9-10 9M927 274h30m-10-9 10 9-10 9" fill="none" stroke="#69a79e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="446" text-anchor="middle" font-family="Segoe UI, Microsoft YaHei, sans-serif" font-size="15" fill="#5c736e">悬浮球负责快速操作；设置页负责快捷键、白名单、开机启动和全屏隐藏</text>
+</svg>
